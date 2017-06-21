@@ -102,7 +102,7 @@ void ASimModeWorldMultiRotor::setupVehiclesAndCamera()
     }
 
     CameraDirector->TargetPawn->initializeForBeginPlay();
-    CameraDirector->initializeForBeginPlay();
+    CameraDirector->initializeForBeginPlay(getInitialViewMode());
 }
 
 void ASimModeWorldMultiRotor::Tick(float DeltaSeconds)

@@ -41,6 +41,12 @@ public:
     UFUNCTION(BlueprintImplementableEvent, Category = "C++ Interface")
         bool setPIPSegVisibility(bool is_viisble);
 
+    UFUNCTION(BlueprintImplementableEvent, Category = "C++ Interface")
+        bool getPIPSegVisibility();
+    UFUNCTION(BlueprintImplementableEvent, Category = "C++ Interface")
+        bool setRecordButtonVisibility(bool is_visible);
+    UFUNCTION(BlueprintImplementableEvent, Category = "C++ Interface")
+        bool getRecordButtonVisibility();
 protected:
     UFUNCTION(BlueprintImplementableEvent, Category = "C++ Interface")
         bool setReportContainerVisibility(bool is_visible);
