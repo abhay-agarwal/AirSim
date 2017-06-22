@@ -34,7 +34,7 @@ public:
     virtual bool isRecording();
     FString getRecordingPath();
 
-    std::ofstream record_file;
+    // std::ofstream record_file;
     std::string record_filename = "airsim_rec";    
 protected:
     virtual void setupInputBindings();
