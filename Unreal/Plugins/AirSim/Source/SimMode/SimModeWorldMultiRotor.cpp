@@ -136,7 +136,7 @@ void ASimModeWorldMultiRotor::Tick(float DeltaSeconds)
             }
         }
 
-        if (isRecording() && record_file.is_open()) {
+        if (isRecording()/* && record_file.is_open()*/) {
             if (!isLoggingStarted)
             {
                 FString imagePathPrefix = common_utils::FileSystem::getLogFileNamePath("img_", "", "", false).c_str();

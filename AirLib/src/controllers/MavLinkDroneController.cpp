@@ -24,6 +24,7 @@
 #include "sensors/imu/ImuBase.hpp"
 #include "sensors/gps/GpsBase.hpp"
 #include "sensors/magnetometer/MagnetometerBase.hpp"
+#include "sensors/ground_truth/GroundTruthSensor.hpp"
 
 namespace msr { namespace airlib {
 
@@ -451,6 +452,42 @@ struct MavLinkDroneController::impl {
         }
         //else ignore message
     }
+    void sendHILState(const Quaternionr& orientation, const Vector3r& angular_velocity, const GeoPoint& geo_point, const Vector3r& velocity, float ind_airspeed, float true_airspeed, const Vector3r& acceleration) {
+        if (!is_simulation_mode_)
+            throw std::logic_error("Attempt to send simulated sensor messages while not in simulation mode");
+
+        mavlinkcom::MavLinkHilStateQuaternion hil_state;
+        hil_state.time_usec = static_cast<uint64_t>(Utils::getTimeSinceEpochNanos() / 1000.0);
+
+        hil_state.attitude_quaternion[0] = orientation.w();
+        hil_state.attitude_quaternion[1] = orientation.x();
+        hil_state.attitude_quaternion[2] = orientation.y();
+        hil_state.attitude_quaternion[3] = orientation.z();
+
+        hil_state.rollspeed = angular_velocity.x();
+        hil_state.pitchspeed = angular_velocity.y();
+        hil_state.yawspeed = angular_velocity.z();
+
+        hil_state.lat = static_cast<int32_t>(geo_point.latitude * 1E7);
+        hil_state.lon = static_cast<int32_t>(geo_point.longitude* 1E7);
+        hil_state.alt = static_cast<int32_t>(geo_point.altitude * 1000);
+
+        hil_state.vx = static_cast<int16_t>(velocity.x() * 100);
+        hil_state.vy = static_cast<int16_t>(velocity.y() * 100);
+        hil_state.vz = static_cast<int16_t>(velocity.z() * 100);
+
+        hil_state.ind_airspeed = static_cast<uint16_t>(ind_airspeed * 100);
+        hil_state.true_airspeed = static_cast<uint16_t>(true_airspeed * 100);
+
+        hil_state.xacc = static_cast<int16_t>(acceleration.x() * 1000);
+        hil_state.yacc = static_cast<int16_t>(acceleration.y() * 1000);
+        hil_state.zacc = static_cast<int16_t>(acceleration.z() * 1000);
+
+        if (hil_node_ != nullptr) {
+            hil_node_->sendMessage(hil_state);
+        }
+    }
+
 
     void sendHILSensor(const Vector3r& acceleration, const Vector3r& gyro, const Vector3r& mag, float abs_pressure, float pressure_alt)
     {
@@ -564,11 +601,18 @@ struct MavLinkDroneController::impl {
     {
         return static_cast<const GpsBase*>(sensors_->getByType(SensorCollection::SensorType::Gps));
     }
+    const GroundTruthSensor* getGroundTruth()
+    {
+        return static_cast<const GroundTruthSensor*>(sensors_->getByType(SensorCollection::SensorType::GroundTruth));
+    }
 
     void update()
     {
         if (sensors_ == nullptr || connection_ == nullptr || !connection_->isOpen())
             return;
+
+        const auto& gt_output = getGroundTruth()->getOutput();
+        sendHILState(gt_output.orientation, gt_output.angular_velocity, gt_output.position, gt_output.velocity, 0.0, 0.0, gt_output.acceleration);
 
         //send sensor updates
         const auto& imu_output = getImu()->getOutput();

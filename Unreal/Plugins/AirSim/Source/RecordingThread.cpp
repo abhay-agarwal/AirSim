@@ -130,10 +130,10 @@ void FRecordingThread::SaveImage()
 
             uint64_t timestamp_millis = static_cast<uint64_t>(clock_->nowNanos() / 1.0E6);
 
-            GameThread->record_file << timestamp_millis << "\t";
-            GameThread->record_file << kinematics.pose.position.x() << "\t" << kinematics.pose.position.y() << "\t" << kinematics.pose.position.z() << "\t";
-            GameThread->record_file << kinematics.pose.orientation.w() << "\t" << kinematics.pose.orientation.x() << "\t" << kinematics.pose.orientation.y() << "\t" << kinematics.pose.orientation.z() << "\t";
-            GameThread->record_file << "\n";
+            //GameThread->record_file << timestamp_millis << "\t";
+            //GameThread->record_file << kinematics.pose.position.x() << "\t" << kinematics.pose.position.y() << "\t" << kinematics.pose.position.z() << "\t";
+            //GameThread->record_file << kinematics.pose.orientation.w() << "\t" << kinematics.pose.orientation.x() << "\t" << kinematics.pose.orientation.y() << "\t" << kinematics.pose.orientation.z() << "\t";
+            //GameThread->record_file << "\n";
 
             UAirBlueprintLib::LogMessage(TEXT("Screenshot saved to:"), filePath, LogDebugLevel::Success);
             imagesSaved++;

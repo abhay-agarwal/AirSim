@@ -103,21 +103,21 @@ bool ASimModeBase::isRecording()
 
 void ASimModeBase::startRecording()
 {
-    if (record_file.is_open()) {
-        record_file.close();
-        UAirBlueprintLib::LogMessage(TEXT("Recording Error"), TEXT("File was already open"), LogDebugLevel::Failure);
-    }
+    //if (record_file.is_open()) {
+    //    record_file.close();
+    //    UAirBlueprintLib::LogMessage(TEXT("Recording Error"), TEXT("File was already open"), LogDebugLevel::Failure);
+    //}
 
-    std::string fullPath = common_utils::FileSystem::getLogFileNamePath(record_filename, "", ".txt", true);
-    common_utils::FileSystem::createTextFile(fullPath, record_file);
+    //std::string fullPath = common_utils::FileSystem::getLogFileNamePath(record_filename, "", ".txt", true);
+    //common_utils::FileSystem::createTextFile(fullPath, record_file);
 
-    if (record_file.is_open()) {
+    //if (record_file.is_open()) {
         is_recording = true;
 
-        UAirBlueprintLib::LogMessage(TEXT("Recording"), TEXT("Started"), LogDebugLevel::Success);
-    }
-    else
-        UAirBlueprintLib::LogMessage("Error creating log file", fullPath.c_str(), LogDebugLevel::Failure);
+    //    UAirBlueprintLib::LogMessage(TEXT("Recording"), TEXT("Started"), LogDebugLevel::Success);
+    //}
+    //else
+    //    UAirBlueprintLib::LogMessage("Error creating log file", fullPath.c_str(), LogDebugLevel::Failure);
 }
 
 bool ASimModeBase::toggleRecording()
@@ -133,11 +133,11 @@ bool ASimModeBase::toggleRecording()
 void ASimModeBase::stopRecording()
 {
     is_recording = false;
-    if (!record_file.is_open()) {
-        UAirBlueprintLib::LogMessage(TEXT("Recording Error"), TEXT("File was not open"), LogDebugLevel::Failure);
-    }
-    else
-        record_file.close();
+    //if (!record_file.is_open()) {
+    //    UAirBlueprintLib::LogMessage(TEXT("Recording Error"), TEXT("File was not open"), LogDebugLevel::Failure);
+    //}
+    //else
+    //    record_file.close();
     
     UAirBlueprintLib::LogMessage(TEXT("Recording"), TEXT("Stopped"), LogDebugLevel::Success);
 }

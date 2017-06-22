@@ -14,6 +14,7 @@
 #include "sensors/imu/ImuSimple.hpp"
 #include "sensors/gps/GpsSimple.hpp"
 #include "sensors/magnetometer/MagnetometerSimple.hpp"
+#include "sensors/ground_truth/GroundTruthSensor.hpp"
 
 //below includes are because of setPhysicsGroundTruth methog
 #include "physics/Environment.hpp"
@@ -41,6 +42,7 @@ public: //types
         bool magnetometer = true;
         bool gps = true;
         bool barometer = true;
+        bool ground_truth = true;
     };
 
     //TODO: support arbitrary shapes for cor body via interfaces
@@ -231,6 +233,8 @@ protected: //static utility functions for derived classes to use
             sensors.insert(createSensor<GpsSimple>(sensor_storage), SensorCollection::SensorType::Gps);
         if (enabled_sensors.barometer)
             sensors.insert(createSensor<BarometerSimple>(sensor_storage), SensorCollection::SensorType::Barometer);
+        if (enabled_sensors.ground_truth)
+            sensors.insert(createSensor<GroundTruthSensor>(sensor_storage), SensorCollection::SensorType::GroundTruth);
     }
 
     template<typename SensorClass>
