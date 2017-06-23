@@ -3,7 +3,7 @@
 #include "AirSim.h"
 #include "AirSimGameMode.h"
 #include "SimHUD/SimHUD.h"
-
+#include "controllers/Settings.hpp"
 
 
 AAirSimGameMode::AAirSimGameMode(const FObjectInitializer& ObjectInitializer)
