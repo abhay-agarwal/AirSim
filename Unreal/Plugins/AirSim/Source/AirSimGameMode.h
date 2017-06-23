@@ -16,5 +16,7 @@ class AIRSIM_API AAirSimGameMode : public AGameModeBase
     virtual void StartPlay() override;
     
     AAirSimGameMode(const FObjectInitializer& ObjectInitializer);
-    
+
+private:
+    void initializeSettings();
 };
