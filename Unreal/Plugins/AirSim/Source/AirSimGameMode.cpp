@@ -16,8 +16,6 @@ AAirSimGameMode::AAirSimGameMode(const FObjectInitializer& ObjectInitializer)
 void AAirSimGameMode::StartPlay() 
 {
     Super::StartPlay();
-<<<<<<< HEAD
-=======
 
     initializeSettings();
 }
@@ -55,5 +53,4 @@ void AAirSimGameMode::initializeSettings()
         UAirBlueprintLib::LogMessage(FString("Error loading settings from ~/Documents/AirSim/settings.json"), TEXT(""), LogDebugLevel::Failure, 30);
         UAirBlueprintLib::LogMessage(FString(ex.what()), TEXT(""), LogDebugLevel::Failure, 30);
     }
->>>>>>> ee11a23... settings to hide debug messages, record button, initial view mode
 }
